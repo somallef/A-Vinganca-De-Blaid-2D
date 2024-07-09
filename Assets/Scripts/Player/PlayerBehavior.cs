@@ -7,6 +7,7 @@ public class PlayerBehavior : MonoBehaviour
 
     private Rigidbody2D rigidbody;
     private IsGroundedChecker isGroundedChecker;
+    private float moveDirection;
 
     private void Awake()
     {        
@@ -21,10 +22,18 @@ public class PlayerBehavior : MonoBehaviour
 
     private void Update()
     {
-        float moveDirection = GameManager.Instance.InputManager.Movement 
-        * Time.deltaTime * moveSpeed;
-        transform.Translate(moveDirection, 0, 0);
+        MovePlayer();
+        FlipSpriteAccordingToMoveDirection();
+    }
 
+    private void MovePlayer()
+    {
+        moveDirection = GameManager.Instance.InputManager.Movement;
+        transform.Translate(moveDirection * Time.deltaTime * moveSpeed, 0, 0);
+    }
+
+    private void FlipSpriteAccordingToMoveDirection()
+    {
         if (moveDirection < 0)
         {
             transform.localScale = new Vector3(-1, 1, 1);
